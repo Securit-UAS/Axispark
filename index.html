@@ -1,0 +1,574 @@
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Axis Park interactive drone project deliverables prepared by Securit Commercial Drone Services.">
+<title>Axis Park | Securit Commercial Drone Services</title>
+
+<style>
+:root{
+--bg1:#0b0c10;
+--bg2:#121826;
+--card:rgba(255,255,255,0.05);
+--card-strong:rgba(255,255,255,0.075);
+--border:rgba(255,255,255,0.12);
+--securblue:#2e4ea2;
+--securblue-light:#4f7be8;
+--text:#ffffff;
+--muted:rgba(255,255,255,0.72);
+}
+
+*{
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+margin:0;
+min-height:100vh;
+font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+color:var(--text);
+text-align:center;
+background:
+radial-gradient(circle at 30% 20%, rgba(46,78,162,0.25), transparent 45%),
+radial-gradient(circle at 70% 80%, rgba(46,78,162,0.18), transparent 40%),
+linear-gradient(145deg,var(--bg1),var(--bg2));
+overflow-x:hidden;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 40% 30%, rgba(46,78,162,0.35), transparent 50%),
+radial-gradient(circle at 70% 70%, rgba(46,78,162,0.25), transparent 50%);
+animation:glowMove 18s ease-in-out infinite alternate;
+z-index:-1;
+pointer-events:none;
+}
+
+@keyframes glowMove{
+0%{transform:translateY(-40px);}
+100%{transform:translateY(40px);}
+}
+
+.header{
+background:#ffffff;
+padding:18px 16px;
+}
+
+.logo{
+max-width:520px;
+width:92%;
+display:block;
+margin:auto;
+}
+
+.page-card{
+width:min(1040px, calc(100% - 32px));
+margin:40px auto;
+padding:34px 22px 28px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+box-shadow:0 18px 55px rgba(0,0,0,0.45);
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+}
+
+/* MAIN VIDEO */
+
+.video-wrapper{
+position:relative;
+width:100%;
+aspect-ratio:16 / 9;
+border-radius:14px;
+overflow:hidden;
+background:#000;
+cursor:pointer;
+box-shadow:0 14px 35px rgba(0,0,0,0.3);
+}
+
+.video-thumb{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.video-wrapper::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(to top,rgba(0,0,0,0.28),transparent 55%);
+pointer-events:none;
+}
+
+.play-button{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:80px;
+height:80px;
+border-radius:50%;
+background:rgba(0,0,0,0.62);
+border:1px solid rgba(255,255,255,0.65);
+display:flex;
+align-items:center;
+justify-content:center;
+transition:transform .2s ease, background .2s ease;
+z-index:2;
+}
+
+.play-button::before{
+content:"";
+border-style:solid;
+border-width:12px 0 12px 20px;
+border-color:transparent transparent transparent #fff;
+margin-left:5px;
+}
+
+.video-wrapper:hover .play-button,
+.video-wrapper:focus-visible .play-button{
+transform:translate(-50%,-50%) scale(1.1);
+background:rgba(0,0,0,0.82);
+}
+
+.video-wrapper iframe{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+border:0;
+z-index:3;
+}
+
+/* CAA BADGE */
+
+.compliance-link{
+display:inline-block;
+margin-top:20px;
+text-decoration:none;
+color:inherit;
+max-width:100%;
+}
+
+.compliance-badge{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:14px;
+padding:14px 18px;
+border-radius:14px;
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.12);
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
+cursor:pointer;
+transition:transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.compliance-badge:hover{
+transform:translateY(-2px);
+background:rgba(255,255,255,0.09);
+box-shadow:0 14px 40px rgba(0,0,0,0.35);
+}
+
+.compliance-logo{
+height:42px;
+background:#fff;
+padding:4px 8px;
+border-radius:6px;
+}
+
+.compliance-copy{
+text-align:left;
+}
+
+.compliance-title{
+font-size:15px;
+font-weight:700;
+}
+
+.compliance-subtitle{
+font-size:12px;
+opacity:.75;
+margin-top:2px;
+}
+
+/* COMPANY LINKS */
+
+.links{
+margin-top:16px;
+display:flex;
+justify-content:center;
+gap:14px;
+}
+
+.icon-link{
+width:56px;
+height:56px;
+border-radius:14px;
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.12);
+display:flex;
+align-items:center;
+justify-content:center;
+transition:transform .2s ease, background .2s ease;
+}
+
+.icon-link:hover{
+transform:scale(1.08);
+background:rgba(255,255,255,0.12);
+}
+
+.icon{
+width:28px;
+height:28px;
+object-fit:contain;
+}
+
+/* DELIVERABLES */
+
+.deliverables{
+margin-top:34px;
+padding-top:28px;
+border-top:1px solid rgba(255,255,255,0.1);
+}
+
+.section-title{
+margin:0;
+font-size:clamp(20px,3vw,27px);
+letter-spacing:.08em;
+text-transform:uppercase;
+}
+
+.section-intro{
+max-width:700px;
+margin:9px auto 22px;
+color:var(--muted);
+font-size:14px;
+line-height:1.6;
+}
+
+.deliverable-grid{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:18px;
+}
+
+.deliverable-card{
+display:flex;
+flex-direction:column;
+min-width:0;
+overflow:hidden;
+text-decoration:none;
+color:inherit;
+text-align:left;
+border-radius:16px;
+background:var(--card-strong);
+border:1px solid rgba(255,255,255,0.14);
+box-shadow:0 12px 32px rgba(0,0,0,0.28);
+transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.deliverable-card:hover{
+transform:translateY(-5px);
+border-color:rgba(79,123,232,0.8);
+box-shadow:0 18px 42px rgba(0,0,0,0.38);
+}
+
+.deliverable-image-wrap{
+position:relative;
+aspect-ratio:16 / 9;
+overflow:hidden;
+background:#070a11;
+}
+
+.deliverable-image{
+width:100%;
+height:100%;
+display:block;
+object-fit:cover;
+transition:transform .35s ease;
+}
+
+.deliverable-card:hover .deliverable-image{
+transform:scale(1.045);
+}
+
+.deliverable-image-wrap::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(to top,rgba(5,8,15,0.34),transparent 55%);
+pointer-events:none;
+}
+
+.card-copy{
+display:flex;
+align-items:center;
+gap:13px;
+padding:17px;
+}
+
+.card-icon{
+flex:0 0 48px;
+width:48px;
+height:48px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(145deg,var(--securblue),var(--securblue-light));
+border:1px solid rgba(255,255,255,0.5);
+box-shadow:0 8px 22px rgba(46,78,162,0.34);
+font-size:21px;
+font-weight:800;
+}
+
+.card-text{
+min-width:0;
+}
+
+.card-title{
+font-size:19px;
+font-weight:750;
+line-height:1.25;
+}
+
+.card-subtitle{
+font-size:13px;
+line-height:1.45;
+color:var(--muted);
+margin-top:4px;
+}
+
+.footer-note{
+margin-top:26px;
+padding-top:20px;
+border-top:1px solid rgba(255,255,255,0.1);
+font-size:13px;
+color:rgba(255,255,255,0.72);
+}
+
+.footer-note strong{
+color:#fff;
+}
+
+@media (max-width:720px){
+.page-card{
+margin:24px auto;
+padding:22px 14px;
+}
+
+.play-button{
+width:66px;
+height:66px;
+}
+
+.deliverable-grid{
+grid-template-columns:1fr;
+}
+
+.compliance-badge{
+width:100%;
+justify-content:flex-start;
+}
+
+.compliance-title{
+font-size:14px;
+}
+
+.card-title{
+font-size:18px;
+}
+}
+
+@media (max-width:430px){
+.header{
+padding:14px 10px;
+}
+
+.compliance-logo{
+height:38px;
+}
+
+.compliance-badge{
+gap:10px;
+padding:12px;
+}
+
+.compliance-subtitle{
+font-size:11px;
+}
+
+.card-copy{
+padding:14px;
+}
+
+.card-icon{
+flex-basis:44px;
+width:44px;
+height:44px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+<img src="logo.jpg" class="logo" alt="Securit Commercial Drone Services">
+</header>
+
+<main class="page-card">
+
+<!-- AXIS PARK EXPLAINER VIDEO -->
+<div
+class="video-wrapper"
+role="button"
+tabindex="0"
+aria-label="Play the Axis Park project overview video"
+data-video-id="z6SdjisLk1E">
+<img
+class="video-thumb"
+src="https://img.youtube.com/vi/z6SdjisLk1E/maxresdefault.jpg"
+alt="Axis Park project overview video">
+<div class="play-button" aria-hidden="true"></div>
+</div>
+
+<!-- CAA AUTHORISATION -->
+<a
+class="compliance-link"
+href="https://www.caa.co.uk/publication/download/19985"
+target="_blank"
+rel="noopener noreferrer">
+<div class="compliance-badge">
+<img class="compliance-logo" src="CAA.svg" alt="Civil Aviation Authority">
+<div class="compliance-copy">
+<div class="compliance-title">CAA PDRA01 Operational Authorisation Holder</div>
+<div class="compliance-subtitle">Commercial UAS operations under the CAA regulatory framework</div>
+</div>
+</div>
+</a>
+
+<!-- SECURIT LINKS -->
+<div class="links" aria-label="Securit links">
+<a
+class="icon-link"
+href="https://secur-it.co.uk"
+target="_blank"
+rel="noopener noreferrer"
+aria-label="Visit the Securit website">
+<img src="website.png" class="icon" alt="">
+</a>
+
+<a
+class="icon-link"
+href="https://www.linkedin.com/company/secur-it-group/posts/?feedView=all"
+target="_blank"
+rel="noopener noreferrer"
+aria-label="Visit Securit on LinkedIn">
+<img src="linkedin.png" class="icon" alt="">
+</a>
+</div>
+
+<!-- PROJECT DELIVERABLES -->
+<section class="deliverables" aria-labelledby="deliverables-title">
+<h1 class="section-title" id="deliverables-title">Project Deliverables</h1>
+<p class="section-intro">
+Open the interactive DroneDeploy project or explore the site through the 360-degree aerial fly-through.
+</p>
+
+<div class="deliverable-grid">
+
+<a
+class="deliverable-card"
+href="https://www.dronedeploy.com/app2/sites/6a58ead0ac32e1538878591e/maps/6a58ed346e641439defb4b7b?jwt_token=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNThlZDQ2NDU0ODAyZWIwZTc1MzIwMyIsInR5cGUiOiJQdWJsaWNTaGFyZVYyIiwiYWNjZXNzX3R5cGUiOiJwbGFuIn0.jBBd8G84iSXj4mBJUoXugV3i9tAt_cILFyPV8w_bEDPJpqSAHv-ImGG74yF5hnZzjD7KvNWu-55QqvUbS0BI9w"
+target="_blank"
+rel="noopener noreferrer">
+<div class="deliverable-image-wrap">
+<img
+class="deliverable-image"
+src="CA82B626-7B2B-469C-BA68-36C7FBD33286.png"
+alt="Aerial view of the Axis Park DroneDeploy project">
+</div>
+<div class="card-copy">
+<div class="card-icon" aria-hidden="true">↗</div>
+<div class="card-text">
+<div class="card-title">DroneDeploy Project</div>
+<div class="card-subtitle">Interactive maps, 3D models, measurements and survey data</div>
+</div>
+</div>
+</a>
+
+<a
+class="deliverable-card"
+href="https://youtu.be/57i5Utc1mxs"
+target="_blank"
+rel="noopener noreferrer">
+<div class="deliverable-image-wrap">
+<img
+class="deliverable-image"
+src="E613B5E3-E48A-4296-8A83-252E8B30DE92.png"
+alt="Axis Park 360-degree aerial fly-through">
+</div>
+<div class="card-copy">
+<div class="card-icon" aria-hidden="true">▶</div>
+<div class="card-text">
+<div class="card-title">360° Site Fly-through</div>
+<div class="card-subtitle">Explore the site through an interactive aerial video experience</div>
+</div>
+</div>
+</a>
+
+</div>
+</section>
+
+<footer class="footer-note">
+Prepared by <strong>Securit Commercial Drone Services</strong> for <strong>Axis Park</strong>
+</footer>
+
+</main>
+
+<script>
+const videoWrapper = document.querySelector(".video-wrapper");
+
+function loadVideo(element){
+const videoId = element.dataset.videoId;
+element.innerHTML = `
+<iframe
+src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1"
+title="Axis Park project overview"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+referrerpolicy="strict-origin-when-cross-origin"
+allowfullscreen>
+</iframe>`;
+}
+
+videoWrapper.addEventListener("click", () => loadVideo(videoWrapper));
+
+videoWrapper.addEventListener("keydown", event => {
+if(event.key === "Enter" || event.key === " "){
+event.preventDefault();
+loadVideo(videoWrapper);
+}
+});
+</script>
+
+</body>
+</html>
+'''
+
+path = Path("/mnt/data/index.html")
+path.write_text(html, encoding="utf-8")
+print(f"Created {path} ({path.stat().st_size:,} bytes)")
