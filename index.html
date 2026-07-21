@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Securit Commercial Drone Services | Video</title>
+
+<style>
+:root{
+--bg1:#0b0c10;
+--bg2:#121826;
+--card:rgba(255,255,255,0.05);
+--border:rgba(255,255,255,0.1);
+--securblue:#2e4ea2;
+--text:#ffffff;
+}
+
+body{
+margin:0;
+min-height:100vh;
+font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+color:var(--text);
+text-align:center;
+background:
+radial-gradient(circle at 30% 20%, rgba(46,78,162,0.25), transparent 45%),
+radial-gradient(circle at 70% 80%, rgba(46,78,162,0.18), transparent 40%),
+linear-gradient(145deg,var(--bg1),var(--bg2));
+overflow-x:hidden;
+}
+
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at 40% 30%, rgba(46,78,162,0.35), transparent 50%),
+radial-gradient(circle at 70% 70%, rgba(46,78,162,0.25), transparent 50%);
+animation:glowMove 18s ease-in-out infinite alternate;
+z-index:-1;
+}
+
+@keyframes glowMove{
+0%{ transform:translateY(-40px); }
+100%{ transform:translateY(40px); }
+}
+
+.header{
+background:#ffffff;
+padding:18px 16px;
+}
+
+.logo{
+max-width:520px;
+width:92%;
+display:block;
+margin:auto;
+}
+
+.page-card{
+width:min(1040px, calc(100% - 32px));
+margin:40px auto;
+padding:34px 22px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+box-shadow:0 18px 55px rgba(0,0,0,0.45);
+}
+
+/* CUSTOM VIDEO PLAYER */
+
+.video-wrapper{
+position:relative;
+width:100%;
+padding-bottom:56.25%;
+border-radius:14px;
+overflow:hidden;
+background:#000;
+cursor:pointer;
+}
+
+.video-thumb{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
+top:0;
+left:0;
+}
+
+.play-button{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:80px;
+height:80px;
+border-radius:50%;
+background:rgba(0,0,0,0.6);
+display:flex;
+align-items:center;
+justify-content:center;
+transition:.2s;
+}
+
+.play-button::before{
+content:"";
+border-style:solid;
+border-width:12px 0 12px 20px;
+border-color:transparent transparent transparent white;
+margin-left:4px;
+}
+
+.video-wrapper:hover .play-button{
+transform:translate(-50%,-50%) scale(1.1);
+background:rgba(0,0,0,0.8);
+}
+
+.video-wrapper iframe{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+border:0;
+}
+
+/* compliance badge */
+
+.compliance-link{
+display:inline-block;
+margin-top:20px;
+text-decoration:none;
+color:inherit;
+}
+
+.compliance-badge{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:14px;
+padding:14px 18px;
+border-radius:14px;
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.12);
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
+cursor:pointer;
+transition:.2s;
+}
+
+.compliance-badge:hover{
+transform:scale(1.02);
+box-shadow:0 14px 40px rgba(0,0,0,0.35);
+}
+
+.compliance-logo{
+height:42px;
+background:#fff;
+padding:4px 8px;
+border-radius:6px;
+}
+
+.compliance-title{
+font-size:15px;
+font-weight:700;
+}
+
+.compliance-subtitle{
+font-size:12px;
+opacity:.75;
+}
+
+.links{
+margin-top:16px;
+display:flex;
+justify-content:center;
+gap:14px;
+}
+
+.icon-link{
+width:56px;
+height:56px;
+border-radius:14px;
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.12);
+display:flex;
+align-items:center;
+justify-content:center;
+transition:.2s;
+}
+
+.icon-link:hover{
+transform:scale(1.08);
+background:rgba(255,255,255,0.12);
+}
+
+.icon{
+width:28px;
+}
+
+.note{
+margin-top:14px;
+font-size:13px;
+opacity:.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<img src="logo.jpg" class="logo">
+</div>
+
+<div class="page-card">
+
+<!-- CUSTOM PLAYER -->
+<div class="video-wrapper" onclick="loadVideo(this)">
+<img class="video-thumb" src="https://img.youtube.com/vi/AXboor4SRIA/maxresdefault.jpg">
+<div class="play-button"></div>
+</div>
+
+<!-- CAA BADGE -->
+<a class="compliance-link" href="https://www.caa.co.uk/publication/download/19985" target="_blank">
+<div class="compliance-badge">
+<img class="compliance-logo" src="CAA.svg">
+<div>
+<div class="compliance-title">CAA PDRA01 Operational Authorisation Holder</div>
+<div class="compliance-subtitle">Commercial UAS operations under CAA regulatory framework</div>
+</div>
+</div>
+</a>
+
+<div class="links">
+<a class="icon-link" href="https://secur-it.co.uk" target="_blank">
+<img src="website.png" class="icon">
+</a>
+
+<a class="icon-link" href="https://www.linkedin.com/company/secur-it-group/posts/?feedView=all" target="_blank">
+<img src="linkedin.png" class="icon">
+</a>
+</div>
+
+<div class="note">
+Securit Commercial Drone Services
+</div>
+
+</div>
+
+<script>
+function loadVideo(el){
+el.innerHTML = `
+<iframe
+src="https://www.youtube.com/embed/AXboor4SRIA?autoplay=1&rel=0&modestbranding=1"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen>
+</iframe>`;
+}
+</script>
+
+</body>
+</html>
